@@ -14,7 +14,7 @@ from data.data_loader import LotkaVolterraDataset, encode, decode
 def main():
     model_name = "Qwen/Qwen2.5-0.5B-Instruct"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, device_map="cpu")
     model.eval()
     
     
@@ -33,9 +33,9 @@ def main():
     
     # run inference on the first example
     example = tokenized_dataset[0]
-    print(len(example['input_ids']))
-    input_ids = torch.tensor(example["input_ids"])[None, :]  # Add batch dimension
-    attention_mask = torch.tensor(example["attention_mask"])[None, :]  # Add batch dimension
+    print(f"Number of tokens of the example sequence: {len(example['input_ids'])}")
+    input_ids = torch.tensor(example["input_ids"])[None, :]
+    attention_mask = torch.tensor(example["attention_mask"])[None, :]
     
     generated_ids = model.generate(input_ids=input_ids,
                                    attention_mask=attention_mask,
@@ -59,6 +59,7 @@ def main():
     plt.grid()
     plt.show()
         
-    
+if __name__ == "__main__":
+    main()
 
         
