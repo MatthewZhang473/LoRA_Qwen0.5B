@@ -1,7 +1,6 @@
 import h5py
 import numpy as np
 from pathlib import Path
-import matplotlib.pyplot as plt
 DATA_DIR = Path(__file__).resolve().parent
 
 
